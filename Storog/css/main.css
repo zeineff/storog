@@ -37,21 +37,33 @@
     padding:10px;
 }
 
-#game_cover{
-    width:300px;
+#game_top{
+    display:flex;
+    justify-content:space-between;
+}.game_title{
+    font-size:30px;
+    font-weight:normal;
+}#game_cover{
+    display:block;
+    width:600px;
     float:left;
 }#game_description{
 }
 
 body{
     background-color:#1B2838;
-}main{
+}.wide{
     max-width:1600px;
     margin-left:auto;
     margin-right:auto;
     background-color:#2B3848;
-}.thin{
+}.medium{
     max-width:1000px;
     margin-left:auto;
     margin-right:auto;
+}.thin{
+    max-width:950px;
+    margin-left:auto;
+    margin-right:auto;
+    background-color:#2B3848;
 }

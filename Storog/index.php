@@ -12,7 +12,7 @@
             include "includes/header.php";
         ?>
         
-        <main>
+        <main class="wide">
             <p>The quick brown fox jumps over the lazy dog</p>
         </main>
     </body>

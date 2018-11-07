@@ -5,7 +5,7 @@
 ?>
 
 <div id="header">
-    <div id="header_content" class="thin">
+    <div id="header_content" class="medium">
         <div id="logo">
             <a href="index.php"><img src="img/steam_logo.png" alt="store_logo"></a>
         </div>

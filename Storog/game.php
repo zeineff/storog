@@ -1,5 +1,8 @@
 <?php
+    include("functions/api_calls.php");
+    
     $game_id = filter_input(INPUT_GET, "game_id", FILTER_SANITIZE_NUMBER_INT);
+    $game = return_steam_game_info($game_id);
 ?>
 
 <!DOCTYPE html>
@@ -14,15 +17,17 @@
     <body>
         <?php include "includes/header.php"; ?>
         
-        <main>
-            <h2>Game Title</h2>
+        <main class="thin">
+            <h3 class="game_title"><?php echo $game["title"] ?></h3>
             
-            <img src="img/steam_logo.png" id="game_cover" alt="game_cover">
-            
-            <p id="game_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <div id="game_top">
+                <img src="<?php echo $game["image"] ?>" id="game_cover" alt="game_cover">
+
+                <p id="game_description"><?php echo $game["description"] ?></p>
+            </div>
             
             <ul id="stores">
-                <li>A</li>
+                <li>Steam - <?php echo $game["price"] ?></li>
                 <li>B</li>
                 <li>C</li>
             </ul>

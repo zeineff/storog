@@ -12,7 +12,7 @@
             include "includes/header.php";
         ?>
         
-        <main class="thin">
+        <main class="medium">
             <form id="login_form" action="functions/login.php" method="post">
                 <label for="username">Account name</label><br>
                 <input type="text" name="username" id="username"><br><br>

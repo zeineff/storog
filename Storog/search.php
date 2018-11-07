@@ -3,6 +3,7 @@
     
     $query = filter_input(INPUT_GET, "game_title", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $games = get_games_by_title($query);
+    $games_found = sizeof($games) !== 0;
 ?>
 
 <!DOCTYPE html>
@@ -18,11 +19,16 @@
         <?php include "includes/header.php"; ?>
         
         <main>
-            <?php foreach ($games as $game) : ?>
-                <a href="game.php?game_id=<?php echo $game["id"] ?>">
-                    <?php echo $game["title"] ?>
-                </a><br>
-            <?php endforeach ?>
+            <?php
+            if (!$games_found){
+                echo "<p>No games found.</p>";
+            }else{
+                foreach ($games as $game) : ?>
+                    <a href="game.php?game_id=<?php echo $game["steam_id"] ?>">
+                        <?php echo $game["title"] ?>
+                    </a><br>
+                <?php endforeach;
+            }?>
         </main>
     </body>
 </html>
