@@ -78,6 +78,10 @@
     function get_user_by_username($username){
         return get_user_by_unique_field("username", $username);
     }
+
+    function get_user_by_id($user_id){
+        return get_user_by_unique_field("id", $user_id);
+    }
     
     function user_field_taken($field, $value){
         return get_user_by_unique_field($field, $value) !== null;
@@ -98,9 +102,7 @@
         $query -> closeCursor();
         
         return get_user_by_username($username);
-    }
-    
-    
+    }   
     
     function get_games_by_unique_field($field, $value){
         return get_like_field("games", $field, $value);
@@ -108,4 +110,16 @@
     
     function get_games_by_title($title){
         return get_games_by_unique_field("title", $title);
+    }
+
+    function get_user_name($user_id){
+        global $db;
+
+        $string = "SELECT username FROM users WHERE id =  " . $user_id;
+        $query = $db -> prepare($string);
+        $query -> execute();
+        $username = $query -> fetch();
+        $query -> closeCursor();
+
+        return $username;
     }
