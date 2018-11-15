@@ -1,0 +1,32 @@
+#title{
+    font-size:25px;
+    font-weight:normal;
+    color:white;
+    padding-bottom:10px;
+}#game_top{
+    display:flex;
+}#cover{
+    flex-basis:60%;
+}#details{
+    flex-basis:40%;
+    padding-left:10px;
+}#header_img{
+    width:100%;
+}#description{
+    padding-bottom:30px;
+}#flex_details div{
+    padding-top:5px;
+    padding-bottom:5px;
+    display:flex;
+}.label{
+    flex-basis:33%;
+    color:#59776C;
+    font-size:12px;
+}#stores{
+    padding-top:20px;
+}#stores li{
+    background-color:#3B4858;
+    padding:3px;
+    border:1px solid #3B4858;
+    border-radius:4px;
+}
