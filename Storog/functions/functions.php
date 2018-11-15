@@ -1,6 +1,6 @@
 <?php
     require_once("db.php");
-
+	
     // Returns true if each field in '$fields' has a value ready in POST
     function check_fields($fields){
         foreach ($fields as $field){
@@ -28,9 +28,8 @@
     function search_table_equal($table, $field, $value, $order = "1", $direction = "DESC"){
         global $db;
         
-        $string = "SELECT * FROM " . $table . " WHERE " . $field . " = :value ORDER BY " . $order . " " . $direction;
+        $string = "SELECT * FROM " . $table . " WHERE " . $field . " = '" . $value . "' ORDER BY " . $order . " " . $direction . ";";
         $query = $db -> prepare($string);
-        $query -> bindValue(":value", $value);
         $query -> execute();
         $results = $query -> fetchAll();
         $query -> closeCursor();
@@ -69,8 +68,6 @@
     
     
     
-    
-
     function get_user_by_unique_field($field, $value){
         return get_unique_field("users", $field, $value);
     }
@@ -78,7 +75,7 @@
     function get_user_by_username($username){
         return get_user_by_unique_field("username", $username);
     }
-
+	
     function get_user_by_id($user_id){
         return get_user_by_unique_field("id", $user_id);
     }
@@ -104,22 +101,36 @@
         return get_user_by_username($username);
     }   
     
+	
+	
+    function get_game_by_unique_field($field, $value){
+        return get_unique_field("games", $field, $value);
+    }
+    
     function get_games_by_unique_field($field, $value){
         return get_like_field("games", $field, $value);
+    }
+    
+    function get_game_by_id($game_id){
+        return get_game_by_unique_field("id", $game_id);
     }
     
     function get_games_by_title($title){
         return get_games_by_unique_field("title", $title);
     }
-
+	
     function get_user_name($user_id){
         global $db;
-
         $string = "SELECT username FROM users WHERE id =  " . $user_id;
         $query = $db -> prepare($string);
         $query -> execute();
         $username = $query -> fetch();
         $query -> closeCursor();
-
         return $username;
+    }
+    
+    
+    
+    function format_steam_price($s){
+        return floatval($s / 100);
     }
