@@ -10,6 +10,8 @@
     $on_steam = !is_null($steam_id);
     $steam;
     
+    $gog = return_gog_game($game["title"]);
+    
     if ($on_steam){
         $steam = return_steam_game_info($game["steam_id"]);
     }
@@ -77,6 +79,11 @@
                             ?>
                         </li>
                     <?php endif; ?>
+                    
+                        <li>
+                            <a href="https://www.gog.com/game/<?= $gog["slug"] ?>"><?= $gog["title"] ?> on GOG</a>
+                             - €<?= $gog["price"] ?>
+                        </li>
                 </ul>
             <?php endif; ?>
         </main>
