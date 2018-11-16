@@ -43,7 +43,7 @@ CREATE TABLE `comments` (
 --
 
 CREATE TABLE `games` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `title` varchar(50) NOT NULL,
   `steam_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
