@@ -25,3 +25,24 @@
 
 	return $game_data;
     }
+    
+    function return_gog_game($game_name){
+            $game_name = explode(" ", $game_name);
+
+            $game_name = implode("%20", $game_name);
+
+            $gog_search = "https://embed.gog.com/games/ajax/filtered?mediaType=game&search=" . $game_name;
+
+            $json = json_decode( file_get_contents($gog_search), true );
+
+            #print_r($json["products"]["0"]["price"]["finalAmount"]);
+
+            $game_info = array(
+                    "title" => $json["products"]["0"]["title"],
+                    "price" => $json["products"]["0"]["price"]["finalAmount"],
+                    "slug" => $json["products"]["0"]["slug"]
+            );
+
+            return $game_info; 
+    }
+?>
