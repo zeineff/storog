@@ -50,6 +50,7 @@ public class Json_Parse{
                         }
                     }
                     
+                    // This condidition only exists to fix one game on steam called "Cat's Puzzle /ᐠ｡ꞈ｡ᐟ\"
                     if (name.charAt(name.length() - 1) == '\\')
                         name = String.format("%s\\", name);
                     
