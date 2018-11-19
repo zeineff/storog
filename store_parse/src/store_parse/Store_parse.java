@@ -2,6 +2,7 @@ package store_parse;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -18,10 +19,12 @@ public class Store_parse{
     static Map<String, Game> games = new HashMap<String, Game>();
     
     public static void main(String[] args){
-        add_steam_games();
-        add_gog_games();
+        read_json_into_games();
         
-        output();
+        for (Map.Entry pair : games.entrySet()){
+            Game g = (Game) pair.getValue();
+            System.out.println(g.title);
+        }
     }
     
     public static void add_steam_games(){
@@ -115,7 +118,7 @@ public class Store_parse{
         return title;
     }
     
-    public static void output(){
+    public static void create_sql_insert_statements(){
         String format = "INSERT INTO GAMES (title, steam_id, on_gog) VALUES ('%s', %s, %s)";
         
         try {
@@ -153,5 +156,81 @@ public class Store_parse{
         }
         
         return s;
+    }
+    
+    public static void dump_games_to_json(){
+        JSONObject a = new JSONObject();
+        JSONArray b = new JSONArray();
+        a.put("games", b);
+        
+        for (Map.Entry game : games.entrySet()){
+            String title = (String) game.getKey();
+            Game g = (Game) game.getValue();
+            
+            JSONObject c = new JSONObject();
+            c.put("title", title);
+            
+            if (g.steam != null){
+                JSONObject steam = new JSONObject();
+                steam.put("steam_id", g.steam.steam_id);
+                c.put("steam", steam);
+            }
+            
+            if (g.gog != null){
+                JSONObject gog = new JSONObject();
+                c.put("gog", gog);
+            }
+            
+            b.put(c);
+        }
+        
+        try{
+            PrintWriter out = new PrintWriter("json_dump.json", "UTF-8");
+            out.println(a.toString());
+            out.close();
+        }catch (FileNotFoundException e) {
+            System.out.println("Error writing json dump file");
+        }catch (UnsupportedEncodingException e) {
+            System.out.println("Error encoding json dump file");
+        }
+    }
+    
+    public static void read_json_into_games(){
+        try{
+            BufferedReader br = new BufferedReader(new FileReader("json_dump.json"));
+            StringBuilder sb = new StringBuilder();
+            
+            String line;
+            
+            while ((line = br.readLine()) != null){
+                sb.append(line);
+                sb.append(System.lineSeparator());
+            }
+            
+            JSONObject dump = new JSONObject(sb.toString());
+            JSONArray g = dump.getJSONArray("games");
+            
+            for (int i = 0; i < g.length(); i++){
+                JSONObject game = g.getJSONObject(i);
+                String title = game.getString("title");
+                
+                Game asdf = new Game(title);
+                games.put(title, asdf);
+                
+                if (game.has("steam")){
+                    JSONObject steam = game.getJSONObject("steam");
+                    asdf.steam = new Steam(steam.getInt("steam_id"));
+                }
+                
+                if (game.has("gog")){
+                    asdf.gog = new GOG();
+                }
+            }
+            
+        }catch (FileNotFoundException e) {
+            System.out.println("Json file not found");
+        }catch (IOException e) {
+            System.out.println("Error reading json file");
+        }
     }
 }
