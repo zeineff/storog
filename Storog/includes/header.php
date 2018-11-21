@@ -6,10 +6,6 @@
     if ($page !== "/Storog/register_form.php" && $page !== "/Storog/login_form.php"){
         $_SESSION["last_page"] = "http://" . $_SERVER["HTTP_HOST"] . $_SERVER['REQUEST_URI'];
     }
-    
-    if (isset($_SESSION["last_page"])){
-        echo $_SESSION["last_page"] . "<br>";
-    }
 ?>
 
 <div id="header">
@@ -22,6 +18,9 @@
             <form id="search_form" method="get" action="search.php">
                 <input type="text" id="search_bar" name="query">
                 <input type="submit" id="search_button" value="Search">
+                <br>
+                <input type="number" id="min_price" name="min_price">
+                <input type="number" id="max_price" name="max_price">
             </form>
         </div>
 
