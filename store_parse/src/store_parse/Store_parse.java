@@ -10,7 +10,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,11 +22,23 @@ public class Store_parse{
     
     public static void main(String[] args){
         read_json_into_games();
+        System.out.println(games.size());
+        remove_junk();
+        System.out.println(games.size());
+    }
+    
+    public static void remake(){
+        add_steam_games();
+        add_gog_games();
         
-        for (Map.Entry pair : games.entrySet()){
-            Game g = (Game) pair.getValue();
-            System.out.println(g.title);
-        }
+        remove_junk();
+        dump_games_to_json();
+        create_sql_insert_statements();
+    }
+    
+    public static void reparse(){
+        read_json_into_games();
+        create_sql_insert_statements();
     }
     
     public static void add_steam_games(){
@@ -119,7 +133,7 @@ public class Store_parse{
     }
     
     public static void create_sql_insert_statements(){
-        String format = "INSERT INTO GAMES (title, steam_id, on_gog) VALUES ('%s', %s, %s)";
+        String format = "INSERT INTO GAMES (title, steam_id, on_gog) VALUES ('%s', %s, %s);";
         
         try {
             PrintWriter out = new PrintWriter("sql.txt", "UTF-8");
@@ -130,7 +144,7 @@ public class Store_parse{
                 
                 title = encode_special_chars(title);
                 String steam = (game.steam == null ? "NULL" : "" + game.steam.steam_id);
-                String gog = (game.gog == null ? "0" : "1");
+                String gog = (game.gog == null ? "FALSE" : "TRUE");
 
                 String query = String.format(format, title, steam, gog);
                 out.println(query);
@@ -149,13 +163,48 @@ public class Store_parse{
         for (int i = 0; i < s.length(); i++){
             char c = s.charAt(i);
             
-            if (c == '\'' || c == '"' || c == '\\'){
+            if (c == '\'' || c == '"' || c == '\\' || c == '’' || c == '´'){
                 s = s.substring(0, i) + '\\' + s.substring(i);
                 i++;
             }
         }
         
         return s;
+    }
+    
+    public static void remove_junk(){
+        List<String> junk = new ArrayList<>();
+        
+        String[] junk_data = {"soundtrack", "trailer", "teaser", "dedicated server", "music_pack", " demo ", "gameplay movie"};
+        String[] junk_endings = {" demo"};
+        
+        for (Map.Entry pair : games.entrySet()){
+            Game g = (Game) pair.getValue();
+            String title = g.title.toLowerCase();
+            boolean removed = false;
+            
+            for (String s : junk_data)
+                if (title.contains(s)){
+                    junk.add(g.title);
+                    removed = true;
+                    break;
+                }
+            
+            if (!removed){
+                for (String s : junk_endings){
+                    int l = s.length();
+                    
+                    if (title.length() >= l)
+                        if (title.substring(title.length() - l).equals(s)){
+                            junk.add(g.title);
+                            break;
+                        }
+                }
+            }
+        }
+        
+        for (String title : junk)
+            games.remove(title);
     }
     
     public static void dump_games_to_json(){
