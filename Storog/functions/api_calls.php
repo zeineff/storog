@@ -3,6 +3,7 @@
         $steam_search = "https://store.steampowered.com/api/appdetails?appids=" . $appid;
 
         $json = json_decode( file_get_contents($steam_search), true );
+        
         $data = $json[$appid]["data"];
         
         $game_data = array(
@@ -24,6 +25,26 @@
         $game_data["release_date"] = $data["release_date"]["date"];
 
 	return $game_data;
+    }
+    
+    function get_steam_prices($steam_ids){
+        $api = "https://store.steampowered.com/api/appdetails?filters=price_overview&appids=" . comma_seperate($steam_ids);
+        $json = json_decode(file_get_contents($api), true);
+        $prices = array();
+        
+        foreach ($steam_ids as $id){
+            $success = $json[$id]["success"] && !empty($json[$id]["data"]);
+            $game = array("success" => $success);
+            
+            if ($success){
+                $data = $json[$id]["data"]["price_overview"];
+                $game += ["price" => $data["final_formatted"]];
+            }
+            
+            $prices += [$id => $game];
+        }
+        
+        return $prices;
     }
     
     function return_gog_game($game_name){
