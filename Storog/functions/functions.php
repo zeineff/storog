@@ -20,6 +20,26 @@
         $_SESSION["username"] = $user["username"];
     }
     
+    function comma_seperate($steam_ids){
+        $s = "";
+        
+        foreach($steam_ids as $id){
+            $s .= ',' . $id;
+        }
+        
+        return substr($s, 1, strlen($s));
+    }
+    
+    function map_acronyms($title){
+        $acronyms = array("cod" => "Call of Duty", "tes" => "The Elder Scroll");
+        
+        if (isset($acronyms[$title])){
+            return $acronyms[$title];
+        }else{
+            return $title;
+        }
+    }
+    
     
     
     
