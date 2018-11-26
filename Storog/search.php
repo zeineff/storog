@@ -55,16 +55,16 @@
         }
     }
     
-    echo $min_price . "<br>";
-    echo $max_price . "<br>";
-    
     for ($i = 0; $i < sizeof($games); $i++){
         if (isset($games[$i]["steam_price"])){
             $price = $games[$i]["steam_price"];
             
             if ($price < $min_price || $price > $max_price){
                 unset($games[$i]);
-                $i--;
+                
+                if ($i != sizeof($games) - 1){
+                    $i--;
+                }
             }
         }
     }
@@ -78,8 +78,9 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Storog</title>
+        <title>Search results</title>
         <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="css/search.css">
     </head>
     
     <body>
@@ -90,24 +91,27 @@
             if (!$games_found){
                 echo "<p>No games found.</p>";
             }else{?>
-                <p> <?php echo $count ?> game<?php if ($plural){echo "s";} ?> found.</p>
-                <?php if ($count > 20) : ?>
-                    <p>Perhaps try using advanced search?</p>
-                <?php endif; ?>
-                
-                <br>
-                
-                <?php foreach ($games as $game) : ?>
-                    <a href="game.php?game_id=<?php echo $game["id"] ?>">
-                        <?php echo $game["title"]; ?><br>
-                    </a>
-                    <?php
-                        if (isset($game["steam_price"])){
-                            echo "<p>" . $game["steam_price"] . " on Steam</p><br>";
-                        } ?>
+                <div id="search_results">
+                    <p> <?php echo $count ?> game<?php if ($plural){echo "s";} ?> found.</p>
+                    <?php if ($count > 20) : ?>
+                        <p>Perhaps try using advanced search?</p>
+                    <?php endif; ?>
+
                     <br>
-                <?php endforeach;
-            }?>
+                
+                    <?php foreach ($games as $game) : ?>
+                        <div class="search_game">
+                            <a href="game.php?game_id=<?php echo $game["id"] ?>">
+                                <?php echo $game["title"]; ?><br>
+                            </a>
+                            <?php
+                                if (isset($game["steam_price"])){
+                                    echo "<p>€" . $game["steam_price"] . " on Steam</p><br>";
+                                } ?>
+                            <br>
+                        </div>
+                    <?php endforeach; }?>
+                </div>
         </main>
     </body>
 </html>

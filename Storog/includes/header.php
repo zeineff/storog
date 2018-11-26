@@ -8,19 +8,30 @@
     }
 ?>
 
+<script src="js/jquery-3.3.1.js"></script>
+<script src="js/header.js"></script>
+
 <div id="header">
     <div id="header_content" class="medium">
         <div id="logo">
-            <a href="index.php"><img src="img/steam_logo.png" alt="store_logo"></a>
+            <a href="index.php"><img src="img/storog_logo.png" alt="store_logo"></a>
         </div>
 
         <div id="search">
             <form id="search_form" method="get" action="search.php">
                 <input type="text" id="search_bar" name="query">
                 <input type="submit" id="search_button" value="Search">
-                <br>
-                <input type="number" id="min_price" name="min_price">
-                <input type="number" id="max_price" name="max_price">
+                <br/>
+                
+                <button id="advanced_search_button">Advanced Search</button>
+                
+                <div id="advanced_search">
+                    <label for="min_price">Minimum Price</label>
+                    <input type="number" step="0.01" id="min_price" name="min_price">
+                    <br/>
+                    <label for="max_price">Maximum Price</label>
+                    <input type="number" step="0.01" id="max_price" name="max_price">
+                </div>
             </form>
         </div>
 

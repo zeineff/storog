@@ -1,0 +1,145 @@
+a img{
+	border:none;
+}
+
+.wrapper{
+	background:#1B2838;
+	width: 60%;
+	border: 1px solid #000;
+	margin: 10px auto 10px auto;
+	height: auto;
+	font-family: 'Century Gothic', sans-serif;
+	color:#FFF;
+}
+
+.pageData{
+	width:auto;
+	height: 50px;
+	color: #FFF;
+	border-bottom: 1px solid #000;
+	margin:10px;
+}
+
+.commentWrapper{
+	margin: 10px;
+	border: 1px solid #000;
+	width:auto;
+}
+
+h3.commentTitle{
+	height:40px;
+	line-height:37px;
+	font-size:14px;
+	margin: 0 5px 0 5px;
+	color: #FFF;
+	border-bottom: 1px solid #000;
+}
+
+span.error{
+	color:#ff0000;
+	float:right;
+}
+
+.commentsList{
+	height:auto;
+	font-size:13px;
+	margin: 10px 0px 5px 5px;
+	color: #555;
+}
+
+ul.commentsHolder-ul{
+	list-style-type:none;
+	margin:0px;
+	padding: 0px;
+	width: auto;
+	height:auto;
+	overflow:hidden;
+}
+
+ul.commentsHolder-ul li.commentHolder{
+	list-style-type:none;
+	background:#1B2838;
+	min-height:150px;
+	width:auto;
+	margin: 5px 0 10px 0;
+	border: 1px solid #000;
+	overflow: hidden;
+	position:relative;
+	color:#FFF;
+}
+
+ul.commentsHolder-ul li.commentHolder .userImage{
+	float:left;
+	height: 65px;
+	width:65px;
+	margin: 5px 10px 0 5px;
+}
+
+ul.commentsHolder-ul li.commentHolder .userImage img.userImage-pic{
+	margin:5px;
+	height:auto;
+}
+
+ul.commentsHolder-ul li.commentHolder .userImage img.userImage{
+	border: 1px solid:#e8491d;
+}
+
+.commentBody{
+	width:auto;
+}
+
+ul.commentsHolder-ul li.commentHolder h3.usernameField {
+	background:#171A21;
+	height: 30px;
+	line-height: 27px;
+	color:#FFF;
+	font-size: 110%;
+	margin: 0 0 0 0px;
+	padding-left:10px;
+	text-shadow: 2px 2px 1px #000;
+}
+
+ul.commentsHolder-ul li.commentHolder .commentText{
+	display:block;
+	width:auto;
+	font-size:100%;
+	margin: 0px 10px 0px 75px;
+	word-wrap: normal;
+} 
+
+.commentButtonsHolder{
+	display:none;
+	position:absolute;
+	top: 0px;
+	right:0px;
+	width: 100px;
+	height: 20px;
+}
+
+ul.commentsHolder-ul li.commentHolder:hover .commentButtonsHolder{
+	display:block;
+}
+
+.commentButtonsHolder ul{
+	list-style-type: none;
+	width:auto;
+	height:auto;
+	overflow: hidden;
+}
+
+.commentButtonsHolder ul li{
+	float:right;
+	height: 20px;
+	width: 20px;
+	text-align:center;
+	line-height: 18px;
+	color:#FFF;
+	font-size: 130%;
+	cursor:pointer;
+	margin: 5px 5px 0 0;
+	transition: transform .3s ease;
+}
+
+.commentButtonsHolder ul li:hover{
+	transform: scale(1.3);
+}

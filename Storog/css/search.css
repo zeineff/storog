@@ -1,0 +1,11 @@
+#search_results{
+    width:450px;
+    margin-left:auto;
+    margin-right:auto;
+    background-color:#2B3848;
+}.search_game{
+    background-color:#3B4858;
+    padding:5px;
+    width:400px;
+    margin:5px;
+}

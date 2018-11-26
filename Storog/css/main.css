@@ -25,11 +25,19 @@
     padding-left:10px;
 }#search_bar{
     width:300px;
+}#advanced_search_button{
+    margin-left:200px;
+    background-color:#171A21;
+    cursor:pointer;
+}#advanced_search{
+    display:none;
+}#advanced_search input{
+    height:20px;
+    margin:3px;
 }#search_button{
     height:32px;
 }#account_control{
     padding-right:10px;
-    background-color:darkblue;
 }#account_control *{
     color:#799f9f;
     text-decoration:none;

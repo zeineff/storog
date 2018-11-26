@@ -154,3 +154,7 @@
     function format_steam_price($s){
         return floatval($s / 100);
     }
+
+    function get_profile_comments($user_id){
+        return search_table_equal("comments", "profile_id", $user_id);
+    }

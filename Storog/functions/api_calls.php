@@ -38,7 +38,7 @@
             
             if ($success){
                 $data = $json[$id]["data"]["price_overview"];
-                $game += ["price" => $data["final_formatted"]];
+                $game += ["price" => $data["final"] / 100];
             }
             
             $prices += [$id => $game];
