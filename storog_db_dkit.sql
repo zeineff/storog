@@ -1,14 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2018 at 05:35 PM
--- Server version: 10.1.35-MariaDB
--- PHP Version: 7.2.9
+-- Generation Time: Nov 26, 2018 at 05:02 PM
+-- Server version: 10.1.28-MariaDB
+-- PHP Version: 7.1.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 1;
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `storog_db_dkit`
+-- Database: `storog`
 --
 
 -- --------------------------------------------------------
@@ -45,8 +45,31 @@ CREATE TABLE `comments` (
 CREATE TABLE `games` (
   `id` int(11) NOT NULL,
   `title` varchar(50) NOT NULL,
-  `steam_id` int(11) NOT NULL
+  `steam_id` int(11) DEFAULT NULL,
+  `on_gog` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `games`
+--
+
+INSERT INTO `games` (`id`, `title`, `steam_id`, `on_gog`) VALUES
+(64069, 'System Shock', NULL, 1),
+(64070, 'System Shock: Enhanced Edition', 410710, 1),
+(64071, 'System Shock 2', 238210, 1),
+(64072, 'System Shock: Adventure Alpha', 482400, 0),
+(64073, 'System Shock: Classic', 410700, 0),
+(64074, 'Call of Duty: United Offensive', 2640, 0),
+(64075, 'Call of Duty 4: Modern Warfare', 7940, 0),
+(64076, 'Call of Duty: Modern Warfare 2', 10180, 0),
+(64077, 'Call of Duty: Modern Warfare 3', 42680, 0),
+(64078, 'Call of Duty: World at War', 10090, 0),
+(64079, 'Undertale', 391540, 1),
+(64080, 'VVVVVV', 70300, 1),
+(64081, 'The Elder Scrolls III: Morrowind', 22320, 0),
+(64082, 'The Elder Scrolls V: Skyrim Special Edition', 489830, 0),
+(64083, 'The Elder Scrolls IV: Oblivion ', 22330, 0),
+(64084, 'Terraria', 105600, 1);
 
 -- --------------------------------------------------------
 
@@ -62,6 +85,13 @@ CREATE TABLE `users` (
   `email` varchar(50) NOT NULL,
   `username` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `password`, `email`, `username`) VALUES
+(1, '', '', '$2y$10$VUH27A4s2kvt9T5lnibXTuoQKez1JFnbaC7j4shnwTwpm4zyYxMmC', '', 'asdf');
 
 -- --------------------------------------------------------
 
@@ -145,13 +175,13 @@ ALTER TABLE `comments`
 -- AUTO_INCREMENT for table `games`
 --
 ALTER TABLE `games`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64085;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `user_games`
