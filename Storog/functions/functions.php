@@ -138,6 +138,172 @@
     function get_games_by_title($title){
         return get_games_by_unique_field("title", $title);
     }
+    
+    function search($title, $min, $max){
+        $search_results = get_games_by_title($title);
+        $games = create_game_objects($search_results);
+        
+        add_steam_prices($games);
+        add_gog_prices($games);
+        
+        return filter_by_price($games, $min, $max);
+    }
+    
+    function create_game_objects($search_results){
+        $games = array();
+        
+        foreach ($search_results as $g){
+            $id = $g["id"];
+            $title = $g["title"];
+            $steam_id = $g["steam_id"];
+            $on_gog = $g["on_gog"];
+            
+            $game = new game();
+            $game->id = $id;
+            $game->title = $title;
+            
+            if (!is_null($steam_id)){
+                $steam = new steam();
+                $steam->steam_id = $steam_id;
+                $game->steam = $steam;
+            }
+            
+            if ($on_gog){
+                $game->gog = new gog();
+            }
+            
+            array_push($games, $game);
+        }
+        
+        return $games;
+    }
+    
+    function add_steam_prices($games){
+        $steam_ids = array();
+        
+        foreach ($games as $g){
+            $steam = $g->steam;
+            
+            if (!is_null($steam)){
+                array_push($steam_ids, $steam->steam_id);
+            }
+        }
+        
+        $map = map_steam_ids_to_games($games);
+        $api = "https://store.steampowered.com/api/appdetails?filters=price_overview&appids=" . comma_seperate($steam_ids);
+        $json = json_decode(file_get_contents($api), true);
+        
+        foreach ($steam_ids as $id){
+            $success = $json[$id]["success"] && !empty($json[$id]["data"]);
+            
+            if ($success){
+                $price = $json[$id]["data"]["price_overview"]["final"] / 100;
+                $map[$id]->steam->price = $price;
+            }
+        }
+    }
+    
+    function add_gog_prices($games){
+        $map = map_titles_to_games($games);
+        
+        foreach ($games as $g){
+            if (!is_null($g->gog)){
+                $title = $g->title;
+                $api = "https://embed.gog.com/games/ajax/filtered?mediaType=game&search=" . $title;
+                $json = json_decode(file_get_contents($api), true);
+                $final_price = $json["products"][0]["price"]["finalAmount"];
+                
+                $map[$title]->gog->price = $final_price;
+            }
+        }
+    }
+    
+    function map_steam_ids_to_games($games){
+        $map = array();
+        
+        foreach ($games as $g){
+            $steam = $g->steam;
+            
+            if (!is_null($steam)){
+                $map[$steam->steam_id] = $g;
+            }
+        }
+        
+        return $map;
+    }
+    
+    function map_titles_to_games($games){
+        $map = array();
+        
+        foreach ($games as $g){
+            $title = $g->title;
+            
+            $map[$title] = $g;
+        }
+        
+        return $map;
+    }
+    
+    function filter_by_price($games, $min, $max){
+        $filtered = array();
+        
+        foreach ($games as $g){
+            $valid = false;
+            
+            $steam = $g->steam;
+            $gog = $g->gog;
+            
+            if (!is_null($steam)){
+                $price = $steam->price;
+                
+                if ($price >= $min && $price <= $max){
+                    $valid = true;
+                }
+            }
+            
+            if (!is_null($gog)){
+                $price = $gog->price;
+                
+                if ($price >= $min && $price <= $max){
+                    $valid = true;
+                }
+            }
+            
+            if ($valid){
+                array_push($filtered, $g);
+            }
+        }
+        
+        return $filtered;
+    }
+    
+    class game{
+        public $id;
+        public $title;
+        public $steam;
+        public $gog;
+        
+        function __construct(){
+            
+        }
+    }
+    
+    class steam{
+        public $steam_id;
+        public $price;
+        
+        function __construct(){
+            
+        }
+    }
+    
+    class gog{
+        public $price;
+        
+        function __construct(){
+            
+        }
+    }
 	
     function get_user_name($user_id){
         global $db;
