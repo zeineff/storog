@@ -3,6 +3,12 @@
     
     $page = $_SERVER['REQUEST_URI'];
     
+    $query = filter_input(INPUT_GET, "query", FILTER_SANITIZE_STRING);
+    $min_price = filter_input(INPUT_GET, "min_price", FILTER_SANITIZE_NUMBER_FLOAT);
+    $max_price = filter_input(INPUT_GET, "max_price", FILTER_SANITIZE_NUMBER_FLOAT);
+    
+    $query = (isset($query) ? $query : "");
+    
     if ($page !== "/Storog/register_form.php" && $page !== "/Storog/login_form.php"){
         $_SESSION["last_page"] = "http://" . $_SERVER["HTTP_HOST"] . $_SERVER['REQUEST_URI'];
     }
@@ -19,7 +25,7 @@
 
         <div id="search">
             <form id="search_form" method="get" action="search.php">
-                <input type="text" id="search_bar" name="query">
+                <input type="text" id="search_bar" name="query" value="<?=$query?>">
                 <input type="submit" id="search_button" value="Search">
                 <br/>
                 
@@ -27,10 +33,10 @@
                 
                 <div id="advanced_search">
                     <label for="min_price">Minimum Price</label>
-                    <input type="number" step="0.01" id="min_price" name="min_price">
+                    <input type="number" step="0.01" id="min_price" name="min_price" <?php if (isset($min_price)){echo "value=" . $min_price;} ?>>
                     <br/>
                     <label for="max_price">Maximum Price</label>
-                    <input type="number" step="0.01" id="max_price" name="max_price">
+                    <input type="number" step="0.01" id="max_price" name="max_price"  <?php if (isset($max_price)){echo "value=" . $max_price;} ?>>
                 </div>
             </form>
         </div>
