@@ -51,12 +51,12 @@
                         
                         <div id="flex_details">
                             <div id="release_date">
-                                <p class="label">RELEASE DATE:</p>
+                                <p class="label"><?=$w["RELEASE DATE"]?>:</p>
                                 <p><?php echo $steam["release_date"];?></p>
                             </div>
 
                             <div id="developers">
-                                <p class="label">DEVELOPER:</p>
+                                <p class="label"><?=$w["DEVELOPER"]?>:</p>
                                 <ul id="developer_list">
                                     <?php foreach ($steam["developers"] as $d) : ?>
                                         <li class="developer"><?php echo $d ?></li>
@@ -70,7 +70,7 @@
                 <ul id="stores">
                     <?php if ($on_steam) : ?>
                         <li>
-                            <a href="https://store.steampowered.com/app/<?php echo $steam_id ?>"><?php echo $steam["title"] ?> on Steam</a> - 
+                            <a href="https://store.steampowered.com/app/<?php echo $steam_id ?>"><?php echo $steam["title"] ?> <?=$w["on"]?> Steam</a> - 
                             <?php
                                 if ($steam["is_free"]){
                                     echo "Free";
@@ -87,7 +87,7 @@
                     
                     <?php if ($on_gog) : ?>
                         <li>
-                            <a href="https://www.gog.com/game/<?= $gog["slug"] ?>"><?= $gog["title"] ?> on GOG</a>
+                            <a href="https://www.gog.com/game/<?= $gog["slug"] ?>"><?= $gog["title"] ?> <?=$w["on"]?> GOG</a>
                              - €<?= $gog["price"] ?>
                         </li>
                     <?php endif; ?>

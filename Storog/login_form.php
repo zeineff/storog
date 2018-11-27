@@ -14,13 +14,13 @@
         
         <main class="medium">
             <form id="login_form" action="functions/login.php" method="post">
-                <label for="username">Account name</label><br>
+                <label for="username"><?=$w["Account name"]?></label><br>
                 <input type="text" name="username" id="username"><br><br>
 
-                <label for="password">Password</label><br>
+                <label for="password"><?=$w["Password"]?></label><br>
                 <input type="text" name="password" id="password"><br><br>
 
-                <input type="submit" id="login_button" value="Sign in">
+                <input type="submit" id="login_button" value="<?=$w["Login"]?>">
             </form>
         </main>
     </body>

@@ -1,0 +1,15 @@
+#lang_select_button{
+    color:#799f9f;
+    cursor:pointer;
+}#lang_select_box{
+    display:none;
+    background-color:#272A31;
+    padding:3px;
+    position:absolute;
+}#lang_select_list li{
+    margin-top:3px;
+    margin-bottom:3px;
+    cursor:pointer;
+}#lang_select_list img{
+    width:20px;
+}
